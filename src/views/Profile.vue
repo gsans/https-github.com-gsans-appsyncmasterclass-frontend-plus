@@ -3,9 +3,9 @@
     <div class="flex container h-screen w-full">
       <SideNav />
 
-      <div class="w-full h-full overflow-y-scroll" v-scroll:bottom="loadMore">
+      <div class="w-full md:w-1/2 h-full overflow-y-scroll" v-scroll:bottom="loadMore">
         <div class="px-5 py-3 border-b border-lighter flex items-center">
-          <button @click="gotoHome()" class="rounded-full p-3 px-4 focus:outline-none hover:bg-lightblue">
+          <button @click="gotoHome()" class="rounded-full md:pr-2 focus:outline-none hover:bg-lightblue">
             <i class="fas fa-arrow-left text-blue"></i>
           </button>
           <div class="lg:block ml-4">
@@ -29,39 +29,39 @@
         <div class="p-3 flex flex-col">
           <div class="flex flex-row justify-between">
             <img :src="profile.imageUrl" 
-                class="w-32 h-32 rounded-full border-white border-4"
-                style="margin-top:-80px"/>
+                class="w-24 h-24 md:w-32 md:h-32 rounded-full border-white"
+                style="margin-top: -80px; border-width: 6px;"/>
 
             <div v-if="isSelf">
               <button v-if="profile.imageUrl === null || profile.imageUrl === 'default_profile.png'"
                       @click="setUpProfile()" 
-                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                      class="text-xs md:text-base md:ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 Set up profile
               </button>
               <button v-if="profile.imageUrl !== null && profile.imageUrl !== 'default_profile.png'"
                       @click="editProfile()" 
-                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+                      class="text-xs md:text-base md:ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 Edit profile
               </button>
             </div>
 
             <div v-if="!isSelf">
-              <button class="ml-auto mr-3 text-blue font-bold px-3 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+              <button class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 <i class="fas fa-ellipsis-h"></i>
               </button>
-              <button class="ml-auto mr-3 text-blue font-bold px-3 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+              <button class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 <i class="fas fa-envelope"></i>
               </button>
               <button v-if="!profile.following"
                       @click="followUser()" 
-                      class="ml-auto text-blue font-bold px-4 py-2 rounded-full border border-blue mb-2 hover:bg-lightblue" style="width:108px;">
+                      class="text-xs md:text-base md:ml-auto text-blue font-bold px-2 py-1 md:px-4 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue w-24 md:w-28">
                 Follow
               </button>
               <button v-if="profile.following"
                       @mouseover="followingLabel='Unfollow'"
                       @mouseleave="followingLabel='Following'"
                       @click="unfollowUser()"
-                      class="ml-auto text-white bg-blue font-bold px-4 py-2 rounded-full border mb-2 hover:bg-red-700" style="width:108px;">
+                      class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-white bg-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border mb-2 hover:bg-red-700 w-22 md:w-28">
                 {{ followingLabel }}
               </button>
             </div>
@@ -70,7 +70,7 @@
             <p class="font-bold text-xl">{{profile.name}}</p>
             <p class="text-dark">@{{profile.screenName}}<span v-if="profile.followedBy" class="text-sm font-medium bg-gray-100 py-1 px-1 mx-2 rounded text-gray-500 align-middle">Follows you</span></p>
             <p class="my-2">{{profile.bio}}</p>
-            <div class="flex flex-row mt-1 mb-2">
+            <div class="flex flex-col md:flex-row mt-1 mb-2">
               <div v-if="profile.location" class="flex flex-row mr-4">
                 <i class="fas fa-map-marker-alt text-dark align-text-bottom pt-1 mr-2" ></i>
                 <p class="text-dark">{{profile.location}}</p>
@@ -96,10 +96,10 @@
             </div>
           </div>
           <div class="flex flex-row justify-evenly mt-2">
-            <button class="text-dark font-bold border-b-2 border-blue px-10 py-4 hover:bg-lightblue">Tweets</button>
-            <button class="text-dark font-bold border-b-2 px-10 py-4 hover:bg-lightblue">Tweets & replies</button>
-            <button class="text-dark font-bold border-b-2 px-10 py-4 hover:bg-lightblue">Media</button>
-            <button class="text-dark font-bold border-b-2 px-10 py-4 hover:bg-lightblue">Like</button>
+            <button class="text-dark font-bold border-b-2 border-blue p-1 md:px-11 md:py-4 hover:bg-lightblue">Tweets</button>
+            <button class="text-dark font-bold border-b-2 p-1 md:px-11 md:py-4 hover:bg-lightblue">Tweets & replies</button>
+            <button class="text-dark font-bold border-b-2 p-1 md:px-11 md:py-4 hover:bg-lightblue">Media</button>
+            <button class="text-dark font-bold border-b-2 p-1 md:px-11 md:py-4 hover:bg-lightblue">Like</button>
           </div>
         </div>
 

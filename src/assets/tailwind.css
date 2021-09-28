@@ -9,3 +9,7 @@ button:focus, input:focus {
 .modal-main {
   height: 40rem;
 }
+
+textarea {
+  resize: none;
+}

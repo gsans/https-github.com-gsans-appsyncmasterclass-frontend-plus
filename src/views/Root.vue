@@ -1,7 +1,7 @@
 <template>
-  <div class="flex w-full h-screen" v-escape="esc">
+  <div class="flex w-full h-screen flex-col-reverse md:flex-row" v-escape="esc">
     <!-- left side -->
-    <div class="flex w-1/2 h-full bg-blue">
+    <div class="flex w-full md:w-1/2 h-full bg-blue p-5 md:p-0">
       <div class="flex items-center justify-center w-full h-full">
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -21,8 +21,8 @@
     </div>
 
     <!-- right side -->
-    <div class="flex w-1/2 h-full">
-      <div class="w-full flex absolute mt-4">
+    <div class="flex w-full md:w-1/2 h-full">
+      <div class="w-full absolute mt-4 hidden md:flex">
         <form class="w-1/2 flex justify-center">
           <div class="bg-lightblue border-b-2 border-dark mr-4 p-2">
             <p class="text-dark">Phone, email, or username</p>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="flex items-center justify-center w-full h-full">
-        <div class="flex flex-col w-1/2 font-bold">
+        <div class="w-full md:w-1/2 flex flex-col font-bold p-5 md:p-0">
           <i class="fab fa-twitter text-blue text-4xl mb-5"></i>
           <p class="text-3xl mb-12">See what's happening in the world right now</p>
           <p>Join Twitter today.</p>

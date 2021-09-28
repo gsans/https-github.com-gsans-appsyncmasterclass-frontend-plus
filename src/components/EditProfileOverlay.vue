@@ -2,7 +2,7 @@
   <div class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="absolute w-full h-full bg-gray-900 opacity-50" @click.prevent="$emit('update:showEditProfileModal', false);"></div>
 
-    <div class="modal-main bg-white mx-auto rounded-lg z-50 overflow-y-auto" style="height:65%; width:40%">
+    <div class="modal-main bg-white mx-auto rounded-lg z-50 overflow-y-auto w-full md:w-2/5">
       <div class="pl-1 pr-4 py-1 h-16 border-b-2 border-lightblue">
         <button @click="saveProfile()" 
                 class="rounded-full bg-blue font-bold text-white mt-2 p-1 px-4 relative right-0 float-right focus:outline-none hover:bg-darkblue">
@@ -10,7 +10,7 @@
         </button>
         <div class="flex flex-row mt-1 ml-4">
           <i @click="$emit('update:showEditProfileModal', false);" class="fas fa-times text-blue text-2xl mb-8 mr-6 rounded-full bg-white p-2 px-3 hover:bg-lightblue"></i>
-          <p class="text-xl pt-1 font-bold">Edit profile</p>
+          <p class="text-xl pt-1 font-bold mt-1">Edit profile</p>
         </div>
       </div>
 
