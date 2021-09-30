@@ -52,7 +52,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue'),
     props: route => ({ query: route.query.q }),
-    meta: { protected: true },
+    meta: { protected: true }, //
   },
   {
     path: '/:screenName',

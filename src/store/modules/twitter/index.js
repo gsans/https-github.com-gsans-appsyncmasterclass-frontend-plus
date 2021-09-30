@@ -24,7 +24,6 @@ const state = () => ({
     results: [],
     nextToken: undefined,
   },
-  }
 });
 
 export default {
