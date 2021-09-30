@@ -19,6 +19,11 @@ const state = () => ({
   following: {
     following: [],
     nextToken: undefined,
+  },
+  search: {
+    results: [],
+    nextToken: undefined,
+  },
   }
 });
 

@@ -538,6 +538,108 @@ const getFollowing = async (userId, limit = 10) => {
   return result.data.getFollowing
 }
 
+const search = async (query, mode, limit, nextToken) => {
+  const result = await API.graphql({
+    query: gql`
+      query search($query: String!, $mode: SearchMode!, $limit: Int!, $nextToken: String) {
+        search(query: $query, mode: $mode, limit: $limit, nextToken: $nextToken) {
+          nextToken
+          results {
+            __typename
+            ... on Tweet {
+              id
+              createdAt
+              text
+              liked
+              likes
+              retweeted
+              retweets
+              replies
+              profile {
+                id
+                name
+                screenName
+                imageUrl
+              }
+            }
+            ... on Reply {
+              id
+              text
+              liked
+              likes
+              retweeted
+              retweets
+              replies
+              profile {
+                id
+                name
+                screenName
+                imageUrl
+              }
+              inReplyToTweet {
+                id
+                profile {
+                  id
+                  name
+                  screenName
+                  imageUrl
+                }
+                createdAt
+                ... on Tweet {
+                  text
+                  liked
+                  likes
+                  retweeted
+                  retweets
+                  replies
+                }
+                ... on Reply {
+                  text
+                  liked
+                  likes
+                  retweeted
+                  retweets
+                  replies
+                }
+              }
+              inReplyToUsers {
+                id
+                name
+                screenName
+                imageUrl
+              }
+            }
+            ... on OtherProfile {
+              id
+              name
+              screenName
+              imageUrl
+              bio
+              following
+              followedBy
+            }
+            ... on MyProfile {
+              id
+              name
+              screenName
+              imageUrl
+              bio
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      query,
+      mode,
+      limit,
+      nextToken
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  })
+
+  return result.data.search;
+}
 export {
   getMyProfile,
   getProfileByScreenName,
@@ -555,4 +657,5 @@ export {
   unfollow,
   getFollowers,
   getFollowing,
+  search,
 }
