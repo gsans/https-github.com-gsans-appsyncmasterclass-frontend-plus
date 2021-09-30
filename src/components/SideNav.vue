@@ -56,9 +56,9 @@ export default {
     return {
       tabs: [
         {icon: 'fas fa-home', title: 'Home', id: 'home', target: 'Home'},
-        {icon: 'fas fa-hashtag', title: 'Explore', id: 'explore'},
-        {icon: 'far fa-bell', title: 'Notifications', id: 'notifications'},
-        {icon: 'far fa-envelope', title: 'Messages', id: 'messages'},
+        {icon: 'fas fa-hashtag', title: 'Explore', id: 'explore', target: 'Explore'},
+        {icon: 'far fa-bell', title: 'Notifications', id: 'notifications', target: 'Notifications'},
+        {icon: 'far fa-envelope', title: 'Messages', id: 'messages', target: 'Messages'},
         {icon: 'far fa-bookmark', title: 'Bookmarks', id: 'bookmarks'},
         {icon: 'fas fa-clipboard-list', title: 'Lists', id: 'lists'},
         {icon: 'far fa-user', title: 'Profile', id: 'profile', target: 'Profile'},
