@@ -24,6 +24,10 @@ const state = () => ({
     results: [],
     nextToken: undefined,
   },
+  explore: {
+    results: [],
+    nextToken: undefined,
+  },
 });
 
 export default {
