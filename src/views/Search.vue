@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="flex container h-screen w-full">
-    <div class="flex container h-screen w-full">
+  <div id="app" class="flex container h-full w-full">
+    <div class="flex container h-full w-full">
       <SideNav />
 
       <div class="w-full md:w-1/2 h-full overflow-y-scroll" v-scroll:bottom="loadMore">

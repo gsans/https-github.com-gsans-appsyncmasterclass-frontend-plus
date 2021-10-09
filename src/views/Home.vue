@@ -14,7 +14,7 @@
         <img :src="`${profile.imageUrl || 'default_profile.png'}`" class="flex-none w-12 h-12 rounded-full"/>
         </div>
         <div class="w-full relative">
-          <textarea v-model="tweet.text" placeholder="What's happening?" class="w-full focus:outline-none mt-3 pb-0 md:pb-3"></textarea>
+          <textarea ref="input" v-model="tweet.text" placeholder="What's happening?" class="w-full focus:outline-none mt-3 pb-0 md:pb-3"></textarea>
           <div class="hidden md:block">
             <i class="text-lg text-blue mr-4 far fa-image"></i>
             <i class="text-lg text-blue mr-4 fas fa-film"></i>
@@ -86,7 +86,7 @@ export default {
     ...mapActions('twitter', [
       'createTweet',
       'loadMyTimeline',
-      'loadMoreMyTimeline'
+      'loadMoreMyTimeline',
     ]),
     async addNewTweet() {
       if (!this.tweet.text) return;
@@ -106,6 +106,9 @@ export default {
     if (this.tweets.length >0) this.loading = false;
     await this.loginUserIfAlreadyAuthenticated();
     await this.loadMyTimeline().then(() => this.loading = false);
+    this.$nextTick(() => {
+      this.$refs.input?.focus();
+    });
   },
 }
 </script>

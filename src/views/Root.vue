@@ -22,18 +22,18 @@
 
     <!-- right side -->
     <div class="flex w-full md:w-1/2 h-full">
-      <div class="w-full absolute mt-4 hidden md:flex">
+      <div class="w-full absolute mt-4 hidden md:flex bg-white">
         <form class="w-1/2 flex justify-center">
-          <div class="bg-lightblue border-b-2 border-dark mr-4 p-2">
-            <p class="text-dark">Phone, email, or username</p>
-            <input v-model="email" class="bg-lightblue text-lg" type="text">
+          <div class="bg-lightblue border-b-2 border-dark mr-4 p-2 w-1/3">
+            <p class="text-dark truncate">Phone, email, or username</p>
+            <input v-model="email" class="bg-lightblue text-lg w-full" type="text">
           </div>
-          <div class="bg-lightblue border-b-2 border-dark mr-4 p-2">
+          <div class="bg-lightblue border-b-2 border-dark mr-4 p-2 w-1/3">
             <p class="text-dark">Password</p>
-            <input v-model="password" class="bg-lightblue text-lg" type="password">            
+            <input v-model="password" class="bg-lightblue text-lg w-full" type="password">            
           </div>
           <div class="self-center">
-            <button @click.prevent="signIn" class="font-bold rounded-full border border-blue text-blue p-2 pl-3 pr-3 hover:bg-lightblue">Log in</button>
+            <button @click.prevent="signIn" class="font-bold rounded-full border border-blue text-blue p-2 pl-3 pr-3 hover:bg-lightblue bg-white">Log in</button>
           </div>
         </form>
       </div>
