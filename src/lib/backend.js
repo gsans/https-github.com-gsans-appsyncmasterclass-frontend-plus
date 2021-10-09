@@ -640,6 +640,110 @@ const search = async (query, mode, limit, nextToken) => {
 
   return result.data.search;
 }
+
+const getHashTag = async (hashTag, mode, limit, nextToken) => {
+  const result = await API.graphql({
+    query: gql`
+      query getHashTag($hashTag: String!, $mode: HashTagMode!, $limit: Int!, $nextToken: String) {
+        getHashTag(hashTag: $hashTag, mode: $mode, limit: $limit, nextToken: $nextToken) {
+          nextToken
+          results {
+            __typename
+            ... on Tweet {
+              id
+              createdAt
+              text
+              liked
+              likes
+              retweeted
+              retweets
+              replies
+              profile {
+                id
+                name
+                screenName
+                imageUrl
+              }
+            }
+            ... on Reply {
+              id
+              text
+              liked
+              likes
+              retweeted
+              retweets
+              replies
+              profile {
+                id
+                name
+                screenName
+                imageUrl
+              }
+              inReplyToTweet {
+                id
+                profile {
+                  id
+                  name
+                  screenName
+                  imageUrl
+                }
+                createdAt
+                ... on Tweet {
+                  text
+                  liked
+                  likes
+                  retweeted
+                  retweets
+                  replies
+                }
+                ... on Reply {
+                  text
+                  liked
+                  likes
+                  retweeted
+                  retweets
+                  replies
+                }
+              }
+              inReplyToUsers {
+                id
+                name
+                screenName
+                imageUrl
+              }
+            }
+            ... on OtherProfile {
+              id
+              name
+              screenName
+              imageUrl
+              bio
+              following
+              followedBy
+            }
+            ... on MyProfile {
+              id
+              name
+              screenName
+              imageUrl
+              bio
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      hashTag,
+      mode,
+      limit,
+      nextToken
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  })
+
+  return result.data.getHashTag;
+}
+
 export {
   getMyProfile,
   getProfileByScreenName,
@@ -658,4 +762,5 @@ export {
   getFollowers,
   getFollowing,
   search,
+  getHashTag,
 }
