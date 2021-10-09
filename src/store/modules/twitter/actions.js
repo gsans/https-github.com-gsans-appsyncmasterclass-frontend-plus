@@ -5,8 +5,11 @@ import {
   follow, unfollow,
   getFollowers, getFollowing,
   search, 
+  getHashTag,
   getOnNotifiedSubscription,
-  getHashTag
+  listConversations,
+  getDirectMessages,
+  sendDirectMessage
 } from '../../../lib/backend'
 
 export default {
@@ -147,32 +150,32 @@ export default {
 
   async subscribeNotifications({ commit, getters, dispatch }) {
     if (!getters.profile.id || getters.subscription) return;
-    // const isFromActiveConversation = (userId, notification, activeConversation) => {
-    //   const conversationId = userId < notification.otherUserId
-    //     ? `${userId}_${notification.otherUserId}`
-    //     : `${notification.otherUserId}_${userId}`
-    //   return activeConversation && activeConversation.id == conversationId;
-    // }
+    const isFromActiveConversation = (userId, notification, activeConversation) => {
+      const conversationId = userId < notification.otherUserId
+        ? `${userId}_${notification.otherUserId}`
+        : `${notification.otherUserId}_${userId}`
+      return activeConversation && activeConversation.id == conversationId;
+    }
     
     const userId = getters.profile.id;
     const subscription = getOnNotifiedSubscription(userId).subscribe({
       next: async ({ value }) => {
         const notification = value.data.onNotified;
-        // if (notification.type == 'DMed') {
-        //   await dispatch("loadConversations", 10);
-        //   // only load messages if they are from the active conversation
-        //   if (isFromActiveConversation(userId, notification, getters.conversation)) {
-        //     await dispatch("getDirectMessages", { 
-        //       limit: 10,
-        //       message: notification.message,
-        //       otherUserId: notification.otherUserId,
-        //     });
-        //    } 
-        //   commit("TWITTER_MESSAGES_NEW", notification);
-        // } else {
+        if (notification.type == 'DMed') {
+          await dispatch("loadConversations", 10);
+          // only load messages if they are from the active conversation
+          if (isFromActiveConversation(userId, notification, getters.conversation)) {
+            await dispatch("getDirectMessages", { 
+              limit: 10,
+              message: notification.message,
+              otherUserId: notification.otherUserId,
+            });
+           } 
+          commit("TWITTER_MESSAGES_NEW", notification);
+        } else {
           await dispatch("getMyTimeline", 10); //cheeky update to see latest data
           commit("TWITTER_NOTIFICATIONS_NEW", notification);
-        // }
+        }
       },
     });
     commit("TWITTER_NOTIFICATIONS_SUBSCRIBE", subscription);
@@ -183,6 +186,32 @@ export default {
   },
   unsubscribeNotifications({ commit }) {
     commit("TWITTER_NOTIFICATIONS_UNSUBSCRIBE");
+  },
+
+  async loadConversations({ commit }, limit) {
+    const conversations = await listConversations(limit);
+    commit("TWITTER_CONVERSATIONS_LOAD", conversations);
+  },
+  resetMessages({ commit }) {
+    commit("TWITTER_MESSAGES_RESET");
+  },
+  async getDirectMessages({ commit }, { otherUserId, limit, nextToken }) {
+    const messages = await getDirectMessages(otherUserId, limit, nextToken);
+    commit("TWITTER_MESSAGES_LOAD", messages);
+  },
+  async loadMoreDirectMessages({ commit, getters }, { otherUserId, limit }) {
+    if (!getters.nextTokenMessages) return;
+    const messages = await getDirectMessages(otherUserId, limit, getters.nextTokenMessages);
+    commit("TWITTER_LOADMORE_MESSAGES", messages);
+  },
+  async sendDirectMessage({ commit, dispatch }, { message, otherUserId }) {
+    await sendDirectMessage(message, otherUserId);
+    await dispatch("loadConversations", 10);
+    const messages = await getDirectMessages(otherUserId, 10);
+    commit("TWITTER_MESSAGES_LOAD", messages);
+  },
+  setActiveConversation({ commit }, conversation){
+    commit("TWITTER_CONVERSATION_ACTIVE_SET", conversation);
   },
 
   resetState({ commit }) {

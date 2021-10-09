@@ -767,6 +767,113 @@ const getOnNotifiedSubscription = (userId) => {
   return API.graphql(onNotified);
 }
 
+const listConversations = async (limit, nextToken) => {
+  const result = await API.graphql({
+    query: gql`
+      query listConversations($limit: Int!, $nextToken: String) {
+        listConversations(
+          limit: $limit
+          nextToken: $nextToken
+        ) {
+          conversations {
+            id
+            otherUser {
+              id
+              name
+              screenName
+              imageUrl
+              backgroundImageUrl
+              bio
+              location
+              website
+              birthdate
+              createdAt
+              followersCount
+              followingCount
+              tweetsCount
+              likesCounts
+              following
+              followedBy
+            }
+            lastMessage
+            lastModified
+          }
+          nextToken
+        }
+      }
+    `,
+    variables: {
+      limit,
+      nextToken
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  })
+
+  return result.data.listConversations;
+}
+
+const getDirectMessages = async (otherUserId, limit, nextToken) => {
+  const result = await API.graphql({
+    query: gql`
+      query getDirectMessages($otherUserId: ID!, $limit: Int!, $nextToken: String) {
+        getDirectMessages(
+          otherUserId: $otherUserId
+          limit: $limit
+          nextToken: $nextToken
+        ) {
+          messages {
+            messageId
+            message
+            timestamp
+            from {
+              imageUrl
+              screenName
+            }
+          }
+          nextToken
+        }
+      }
+    `,
+    variables: {
+      otherUserId,
+      limit,
+      nextToken
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  })
+
+  return result.data.getDirectMessages;
+}
+
+const sendDirectMessage = async (message, otherUserId) => {
+  const result = await API.graphql({
+    query: gql`
+      mutation sendDirectMessage($message: String!, $otherUserId: ID!) {
+        sendDirectMessage(
+          message: $message
+          otherUserId: $otherUserId
+        ) {
+          id
+          message:lastMessage
+          lastModified
+          otherUser {
+            name
+            screenName
+            imageUrl
+          }
+        }
+      }
+    `,
+    variables: {
+      message,
+      otherUserId,
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS"
+  })
+
+  return result.data.sendDirectMessage;
+}
+
 export {
   getMyProfile,
   getProfileByScreenName,
@@ -787,4 +894,7 @@ export {
   search,
   getHashTag,
   getOnNotifiedSubscription,
+  listConversations,
+  getDirectMessages,
+  sendDirectMessage,
 }
