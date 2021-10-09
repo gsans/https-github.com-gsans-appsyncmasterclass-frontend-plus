@@ -60,7 +60,7 @@ const getProfileByScreenName = async (screenName) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS"
   })
-  const profile = result.data.getProfile
+  const profile = result.data.getProfile || {};
 
   profile.imageUrl = profile.imageUrl || 'default_profile.png'
   return profile
@@ -182,51 +182,22 @@ const getTweets = async (userId, limit, nextToken) => {
     query: gql`
       query getTweets($userId:ID!, $limit:Int!, $nextToken:String) {
         getTweets(userId:$userId, limit:$limit, nextToken: $nextToken) {
-          nextToken
-          tweets {           
-            __typename 
-            id
-            profile {
-              id
-              name
-              screenName
-              imageUrl
-            }
-            createdAt
+        nextToken
+          tweets {
             ... on Tweet {
+              id
+              createdAt
               text
               liked
               likes
               retweeted
               retweets
               replies
-            }
-            ... on Retweet {
-              retweetOf {
+              profile {
                 id
-                profile {
-                  id
-                  name
-                  screenName
-                  imageUrl
-                }
-                createdAt
-                ... on Tweet {
-                  text
-                  liked
-                  likes
-                  retweeted
-                  retweets
-                  replies
-                }
-                ... on Reply {
-                  text
-                  liked
-                  likes
-                  retweeted
-                  retweets
-                  replies
-                }
+                name
+                screenName
+                imageUrl
               }
             }
             ... on Reply {
@@ -744,6 +715,58 @@ const getHashTag = async (hashTag, mode, limit, nextToken) => {
   return result.data.getHashTag;
 }
 
+const getOnNotifiedSubscription = (userId) => {
+  const onNotified = {
+    query: gql`
+      subscription onNotified ($userId: ID!) {
+        onNotified(userId: $userId) {
+          ... on Retweeted {
+            id
+            createdAt
+            retweetedBy
+            tweetId
+            retweetId
+            type
+          }
+          ... on Liked {
+            id
+            createdAt
+            likedBy
+            tweetId
+            type
+          }
+          ... on Mentioned {
+            id
+            createdAt
+            mentionedBy
+            mentionedByTweetId
+            type
+          }
+          ... on Replied {
+            id
+            createdAt
+            repliedBy
+            tweetId
+            replyTweetId
+            type
+          }
+          ... on DMed {
+            id
+            message
+            createdAt
+            otherUserId
+            type
+          }
+        }
+    }`,
+    variables: {
+      userId: userId
+    }
+  };
+
+  return API.graphql(onNotified);
+}
+
 export {
   getMyProfile,
   getProfileByScreenName,
@@ -763,4 +786,5 @@ export {
   getFollowing,
   search,
   getHashTag,
+  getOnNotifiedSubscription,
 }

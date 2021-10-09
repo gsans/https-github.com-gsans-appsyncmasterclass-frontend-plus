@@ -5,6 +5,7 @@ import {
   follow, unfollow,
   getFollowers, getFollowing,
   search, 
+  getOnNotifiedSubscription,
   getHashTag
 } from '../../../lib/backend'
 
@@ -142,5 +143,49 @@ export default {
       nextToken: undefined,
     }
     commit("TWITTER_SEARCH_HASHTAG", searchResults);
-  }
+  },
+
+  async subscribeNotifications({ commit, getters, dispatch }) {
+    if (!getters.profile.id || getters.subscription) return;
+    // const isFromActiveConversation = (userId, notification, activeConversation) => {
+    //   const conversationId = userId < notification.otherUserId
+    //     ? `${userId}_${notification.otherUserId}`
+    //     : `${notification.otherUserId}_${userId}`
+    //   return activeConversation && activeConversation.id == conversationId;
+    // }
+    
+    const userId = getters.profile.id;
+    const subscription = getOnNotifiedSubscription(userId).subscribe({
+      next: async ({ value }) => {
+        const notification = value.data.onNotified;
+        // if (notification.type == 'DMed') {
+        //   await dispatch("loadConversations", 10);
+        //   // only load messages if they are from the active conversation
+        //   if (isFromActiveConversation(userId, notification, getters.conversation)) {
+        //     await dispatch("getDirectMessages", { 
+        //       limit: 10,
+        //       message: notification.message,
+        //       otherUserId: notification.otherUserId,
+        //     });
+        //    } 
+        //   commit("TWITTER_MESSAGES_NEW", notification);
+        // } else {
+          await dispatch("getMyTimeline", 10); //cheeky update to see latest data
+          commit("TWITTER_NOTIFICATIONS_NEW", notification);
+        // }
+      },
+    });
+    commit("TWITTER_NOTIFICATIONS_SUBSCRIBE", subscription);
+  },
+
+  resetNotifications({ commit }) {
+    commit("TWITTER_NOTIFICATIONS_RESET");
+  },
+  unsubscribeNotifications({ commit }) {
+    commit("TWITTER_NOTIFICATIONS_UNSUBSCRIBE");
+  },
+
+  resetState({ commit }) {
+    commit("TWITTER_RESET_STATE");
+  },
 };
