@@ -18,7 +18,6 @@
           </div>
         </div>
 
-        <!-- profile details -->
         <div class="flex flex-col">
           <div class="flex flex-row justify-evenly">
             <button class="w-full text-dark font-bold border-b-2 p-1 md:px-8 md:py-4 hover:bg-lightblue">Top</button>
@@ -70,9 +69,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('twitter', [
-      'profile', 
-    ]),
     ...mapGetters('twitter', {
       results: 'search'
     }),
@@ -85,9 +81,6 @@ export default {
       'loadSearch',
       'loadMoreSearch',
       'resetSearch'
-    ]),
-    ...mapActions('profilePage', [
-      'loadProfile',
     ]),
     gotoHome() {
       this.$router.push({

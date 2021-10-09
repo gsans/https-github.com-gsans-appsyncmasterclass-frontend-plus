@@ -112,8 +112,8 @@ export default {
     commit("TWITTER_LOADMORE_TWEETS", timeline);
   },
 
-  async loadSearch({ commit }, { query, mode, limit, nextToken }) {
-    const searchResults = await search(query, mode, limit, nextToken );
+  async loadSearch({ commit }, { query, mode, limit }) {
+    const searchResults = await search(query, mode, limit);
     commit("TWITTER_SEARCH", searchResults);
   },
   async loadMoreSearch({ commit, getters }, { query, mode, limit }) {
@@ -129,14 +129,14 @@ export default {
     commit("TWITTER_SEARCH", searchResults);
   },
 
-  async loadSearchHashTag({ commit }, { query, mode, limit, nextToken }) {
-    const q = query || ' '; // mandatory
-    const searchResults = await getHashTag(q, mode, limit, nextToken);
+  async loadSearchHashTag({ commit }, { query, mode, limit }) {
+    const q = query || ' '; // mandatory field
+    const searchResults = await getHashTag(q, mode, limit);
     commit("TWITTER_SEARCH_HASHTAG", searchResults);
   },
   async loadMoreSearchHashTag({ commit, getters }, { query, mode, limit }) {
     if (!getters.nextTokenSearch) return;
-    const q = query || ' '; // mandatory
+    const q = query || ' '; // mandatory field
     const searchResults = await getHashTag(q, mode, limit, getters.nextTokenSearch);
     commit("TWITTER_LOADMORE_SEARCH_HASHTAG", searchResults);
   },
