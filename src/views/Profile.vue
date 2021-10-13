@@ -49,7 +49,7 @@
               <button class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 <i class="fas fa-ellipsis-h"></i>
               </button>
-              <button v-if="profile.following" class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
+              <button v-if="profile.followedBy" class="text-xs md:text-base md:ml-auto mr-1 md:mr-3 text-blue font-bold px-3 py-1 md:px-3 md:py-2 rounded-full border border-blue mb-2 hover:bg-lightblue">
                 <i @click="sendMessage()" class="fas fa-envelope"></i>
               </button>
               <button v-if="!profile.following"
