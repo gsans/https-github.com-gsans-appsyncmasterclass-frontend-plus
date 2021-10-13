@@ -45,10 +45,10 @@
       </div>
 
       <div v-if="loading || !active" 
-        class="w-full xl:w-1/3 z-0 h-screen border-l border-r border-lighter overflow-y-scroll relative flex flex-col items-center justify-center"
+        class="w-full z-0 h-screen border-l border-r border-lighter overflow-y-scroll relative flex flex-col items-center justify-center"
         style="display: grid; grid-template-rows: 53px auto"
       >
-        <div class="top-0 left-0 w-full px-5 pt-1 pb-2 border-b border-lighter flex bg-white">        
+        <div class="top-0 left-0 w-full px-5 pt-1 pb-2 border-lighter flex bg-white" :class="!active?'':'border-b'">        
           <button @click="gotoHome()" class="block md:hidden rounded-full mr-2 focus:outline-none hover:bg-lightblue">
             <i class="fas fa-arrow-left text-blue"></i>
           </button>
