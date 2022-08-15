@@ -263,7 +263,6 @@ export default {
     await this.loginUserIfAlreadyAuthenticated();
     const screenName = this.$route.params.screenName;
     this.isSelf = this.isMySelf(screenName);
-    //this.loading = false;
     await Promise.all([
       this.loadProfile(screenName),
       this.loadTweets(screenName)
@@ -273,7 +272,6 @@ export default {
           this.noUser = true;
         })
     ]);
-    
   },
 }
 </script>

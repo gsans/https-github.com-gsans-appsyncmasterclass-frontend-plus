@@ -105,7 +105,6 @@ export default {
     state.notifications.messages.active.messages = [...state.notifications.messages.active.messages, newMessage];
   },
   TWITTER_CONVERSATION_ACTIVE_SET(state, conversation) {
-    //debugger; // eslint-disable-line no-debugger
     let set = state.notifications.messages.conversationsSet;
     if (set && conversation && set.has(conversation.id)) {
       set.delete(conversation.id);

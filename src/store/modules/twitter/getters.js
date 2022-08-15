@@ -23,7 +23,6 @@ export default {
 
   conversationsSet: state => state.notifications.messages.conversationsSet,
   hasNewMessages: state => conversation => {
-    console.log('getter')
     const set = state.notifications.messages.conversationsSet;
     const active = state.notifications.messages.active.conversation;
     return set.has(conversation.id) && (
